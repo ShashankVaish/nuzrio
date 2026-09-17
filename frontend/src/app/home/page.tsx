@@ -20,6 +20,7 @@ export default function HomePage() {
 
   const niches = useMemo(() => ["All", ...(brief?.niches ?? [])], [brief]);
   const story = brief?.stories[currentIndex];
+  const nextStory = brief?.stories[currentIndex + 1];
   const bars = useMemo(() => waveformBars(story?.id ?? "seed"), [story?.id]);
   const progressPct = story?.durationSec ? Math.min(100, (positionSec / story.durationSec) * 100) : 0;
 
@@ -38,20 +39,22 @@ export default function HomePage() {
 
       <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-10 lg:px-10 lg:pt-2 lg:max-w-6xl lg:mx-auto lg:items-start">
       <div>
-      <div className="mt-5 px-5 sm:px-6 lg:px-0 flex gap-2 overflow-x-auto pb-1">
-        {niches.map((n) => (
-          <button
-            key={n}
-            onClick={() => setTab(n)}
-            className={clsx(
-              "shrink-0 px-3.5 py-1.5 rounded-full text-[13px] font-semibold transition-colors",
-              tab === n ? "text-black" : "bg-surface text-text-dim border border-border"
-            )}
-            style={tab === n ? { background: "var(--success-grad)" } : undefined}
-          >
-            {n === "All" ? "All" : nicheShort[n] ?? n}
-          </button>
-        ))}
+      <div className="mt-5 px-5 sm:px-6 lg:px-0 pb-3 border-b border-border">
+        <div className="flex gap-2 overflow-x-auto">
+          {niches.map((n) => (
+            <button
+              key={n}
+              onClick={() => setTab(n)}
+              className={clsx(
+                "shrink-0 px-3.5 py-1.5 rounded-full text-[13px] font-semibold transition-colors",
+                tab === n ? "text-black" : "bg-surface text-text-dim border border-border"
+              )}
+              style={tab === n ? { background: "var(--success-grad)" } : undefined}
+            >
+              {n === "All" ? "All" : nicheShort[n] ?? n}
+            </button>
+          ))}
+        </div>
       </div>
 
       <div className="px-5 sm:px-6 lg:px-0 mt-6">
@@ -80,7 +83,7 @@ export default function HomePage() {
         <div className="px-5 sm:px-6 lg:px-0 mt-5">
           <div className="rounded-3xl border border-border bg-surface p-4 lg:p-6">
             <div className="flex items-center justify-between">
-              <span className="flex items-center gap-1.5 text-[11px] font-semibold text-text-dim">
+              <span className="flex items-center gap-1.5 text-[11px] font-semibold text-text-dim bg-surface-2 rounded-full px-3 py-1.5">
                 <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: "var(--success-1)" }} />
                 NOW PLAYING · {(nicheShort[story.niche] ?? story.niche).toUpperCase()}
               </span>
@@ -102,6 +105,8 @@ export default function HomePage() {
                 <Bookmark size={12} fill={story.saved ? "var(--accent-1)" : "none"} /> Save
               </button>
             </div>
+
+            {nextStory && <p className="mt-2 text-xs text-text-faint truncate">{nextStory.title}</p>}
 
             <div className="mt-4 h-10 flex items-end gap-[3px]">
               {bars.map((h, i) => (

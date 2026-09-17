@@ -11,11 +11,32 @@ npm run seed            # loads sample stories
 npm run dev
 ```
 
-Server runs on `http://localhost:5000`, API mounted at `/api/v1`.
+Server runs on `http://localhost:5000`, API mounted at `/api/v1`. `npm run seed` loads 33 mock stories spread across all 11 niches, so any onboarding niche combination produces a populated brief and Discover feed.
+
+## Docker
+
+```bash
+cp .env.example .env   # JWT_ACCESS_SECRET/JWT_REFRESH_SECRET/GOOGLE_CLIENT_ID/CLIENT_URL are read from this file
+docker compose up -d --build
+docker compose exec backend npm run seed
+```
+
+This runs MongoDB and the API together (`docker-compose.yml`), with Mongo data persisted in the `mongo_data` volume. The API is reachable at `http://<server-ip>:5000`. Set `CLIENT_URL` in `.env` to your deployed frontend origin(s), comma-separated if there's more than one (e.g. `https://nuzio.vercel.app`) — the backend's CORS check only allows origins listed there.
+
+To build/run the API image standalone against an external Mongo (e.g. MongoDB Atlas) instead of the bundled container:
+
+```bash
+docker build -t nuzio-backend .
+docker run -p 5000:5000 --env-file .env nuzio-backend
+```
 
 ## Frontend
 
-The `frontend/` folder is a separate Next.js app that consumes this API — see [frontend/README.md](frontend/README.md). Run the backend first (with MongoDB up and seeded), then `cd frontend && npm install && npm run dev`.
+The `frontend/` folder is a separate Next.js app that consumes this API — see [frontend/README.md](frontend/README.md) for local dev. If you've deployed it on Vercel, set these Vercel project environment variables:
+
+- `NEXT_PUBLIC_API_URL` → your deployed backend's `/api/v1` URL (e.g. `https://api.yourdomain.com/api/v1`)
+- `NEXT_PUBLIC_GOOGLE_CLIENT_ID` → same Google OAuth client ID as the backend
+- Add the Vercel deployment URL to the backend's `CLIENT_URL` and to the Google Cloud Console's **Authorized JavaScript origins**.
 
 ## Endpoints
 

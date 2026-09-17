@@ -9,7 +9,11 @@ const env = {
   jwtAccessExpiresIn: process.env.JWT_ACCESS_EXPIRES_IN || '15m',
   jwtRefreshExpiresIn: process.env.JWT_REFRESH_EXPIRES_IN || '30d',
   googleClientId: process.env.GOOGLE_CLIENT_ID,
-  clientUrl: process.env.CLIENT_URL || 'http://localhost:3000',
+  // Comma-separated list, e.g. "http://localhost:3000,https://nuzio.vercel.app"
+  clientUrls: (process.env.CLIENT_URL || 'http://localhost:3000')
+    .split(',')
+    .map((url) => url.trim())
+    .filter(Boolean),
 };
 
 module.exports = env;

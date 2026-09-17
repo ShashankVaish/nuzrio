@@ -16,8 +16,13 @@ export function BottomNav() {
         <button
           onClick={toggle}
           disabled={!brief}
-          className="absolute -top-7 w-14 h-14 rounded-full flex items-center justify-center disabled:opacity-40"
-          style={{ background: "var(--accent-grad)", boxShadow: "0 10px 30px -8px rgba(107,92,246,0.7)" }}
+          className="absolute -top-7 w-14 h-14 rounded-full flex items-center justify-center disabled:opacity-40 transition-shadow"
+          style={{
+            background: "var(--accent-grad)",
+            boxShadow: isPlaying
+              ? "0 0 0 3px rgba(52,211,153,0.5), 0 10px 30px -8px rgba(52,211,153,0.6)"
+              : "0 10px 30px -8px rgba(107,92,246,0.7)",
+          }}
         >
           {isPlaying ? (
             <Pause size={20} className="text-white" fill="white" />

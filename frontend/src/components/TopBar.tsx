@@ -10,15 +10,23 @@ export function TopBar() {
         <Logo />
       </div>
       <div className="flex-1" />
-      <div className="flex items-center gap-4">
-        <Search size={19} className="text-text-dim" />
-        <div className="relative">
-          <Bell size={19} className="text-text-dim" />
+      <div className="flex items-center gap-3">
+        <button
+          className="w-9 h-9 rounded-full flex items-center justify-center"
+          style={{ background: "linear-gradient(135deg, #7c6cf6, #4f8bf0)" }}
+        >
+          <Search size={16} className="text-white" />
+        </button>
+        <button
+          className="relative w-9 h-9 rounded-full flex items-center justify-center"
+          style={{ background: "linear-gradient(135deg, #f6b545, #f0854f)" }}
+        >
+          <Bell size={16} className="text-white" />
           <span
-            className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full"
-            style={{ background: "var(--accent-1)" }}
+            className="absolute top-0 right-0 w-2.5 h-2.5 rounded-full border-2"
+            style={{ background: "var(--accent-1)", borderColor: "var(--bg)" }}
           />
-        </div>
+        </button>
       </div>
     </div>
   );

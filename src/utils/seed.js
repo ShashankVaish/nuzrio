@@ -3,7 +3,10 @@ const mongoose = require('mongoose');
 const connectDB = require('../config/db');
 const Story = require('../models/Story');
 
+// Mock catalog covering every niche in src/data/catalog.js so onboarding with
+// any combination of niches produces a populated Home brief and Discover feed.
 const sampleStories = [
+  // AI & Technology
   {
     title: 'Anthropic ships Claude 4.5 with 2M-token memory and native tools.',
     summary: "Anthropic's new memory layer lets Claude hold entire codebases in mind while it works.",
@@ -15,6 +18,28 @@ const sampleStories = [
     durationSec: 194,
   },
   {
+    title: 'OpenAI opens its enterprise agent marketplace to third-party developers.',
+    summary: 'Companies can now list and monetize custom agents built on top of the platform.',
+    niche: 'AI & Technology',
+    source: 'TechCrunch',
+    sourceUrl: 'https://techcrunch.com',
+    readMinutes: 3,
+    audioUrl: '/samples/stories/openai-marketplace.mp3',
+    durationSec: 168,
+  },
+  {
+    title: 'India unveils a national compute grant for AI startups.',
+    summary: 'The scheme subsidizes GPU access for early-stage teams building on domestic clouds.',
+    niche: 'AI & Technology',
+    source: 'Economic Times',
+    sourceUrl: 'https://economictimes.indiatimes.com',
+    readMinutes: 2,
+    audioUrl: '/samples/stories/india-compute-grant.mp3',
+    durationSec: 142,
+  },
+
+  // Financial Markets
+  {
     title: 'Fed minutes hint at a September policy shift.',
     summary: 'Officials flagged growing confidence that inflation is cooling toward target.',
     niche: 'Financial Markets',
@@ -25,25 +50,27 @@ const sampleStories = [
     durationSec: 130,
   },
   {
-    title: 'Indian D2C startups raise record seed rounds in Q3.',
-    summary: 'A wave of consumer brands is drawing early-stage capital despite a broader funding slowdown.',
-    niche: 'Startups',
-    source: 'Economic Times',
-    sourceUrl: 'https://economictimes.indiatimes.com',
-    readMinutes: 4,
-    audioUrl: '/samples/stories/d2c-funding.mp3',
-    durationSec: 210,
+    title: 'Nifty and Sensex close at record highs on FII inflows.',
+    summary: 'Foreign investors returned in force after three straight months of selling.',
+    niche: 'Financial Markets',
+    source: 'Moneycontrol',
+    sourceUrl: 'https://www.moneycontrol.com',
+    readMinutes: 2,
+    audioUrl: '/samples/stories/nifty-record.mp3',
+    durationSec: 118,
   },
   {
-    title: 'ISRO announces next lunar sample-return mission timeline.',
-    summary: 'The mission builds on Chandrayaan-3 learnings and targets a 2028 launch window.',
-    niche: 'Science',
-    source: 'The Hindu',
-    sourceUrl: 'https://www.thehindu.com',
-    readMinutes: 3,
-    audioUrl: '/samples/stories/isro-mission.mp3',
-    durationSec: 175,
+    title: 'Gold slips as the dollar strengthens on rate-cut doubts.',
+    summary: 'Traders trimmed bets on an aggressive easing cycle after strong jobs data.',
+    niche: 'Financial Markets',
+    source: 'Reuters',
+    sourceUrl: 'https://www.reuters.com',
+    readMinutes: 2,
+    audioUrl: '/samples/stories/gold-dollar.mp3',
+    durationSec: 121,
   },
+
+  // Indian Business
   {
     title: 'RBI keeps repo rate unchanged, signals gradual easing ahead.',
     summary: "The central bank's tone softened as it balances growth support with inflation control.",
@@ -55,6 +82,156 @@ const sampleStories = [
     durationSec: 160,
   },
   {
+    title: 'Reliance Retail plans a fresh push into quick commerce.',
+    summary: 'The conglomerate is doubling dark-store density across ten metro cities.',
+    niche: 'Indian Business',
+    source: 'Business Standard',
+    sourceUrl: 'https://www.business-standard.com',
+    readMinutes: 3,
+    audioUrl: '/samples/stories/reliance-quick-commerce.mp3',
+    durationSec: 155,
+  },
+  {
+    title: "India's manufacturing PMI hits an 18-month high.",
+    summary: 'New export orders drove the strongest factory expansion since early last year.',
+    niche: 'Indian Business',
+    source: 'Economic Times',
+    sourceUrl: 'https://economictimes.indiatimes.com',
+    readMinutes: 2,
+    audioUrl: '/samples/stories/pmi-manufacturing.mp3',
+    durationSec: 132,
+  },
+
+  // Global Politics
+  {
+    title: 'EU and India resume free trade talks after an 18-month pause.',
+    summary: 'Negotiators aim to close the deal on tariffs and data flows before year-end.',
+    niche: 'Global Politics',
+    source: 'Reuters',
+    sourceUrl: 'https://www.reuters.com',
+    readMinutes: 3,
+    audioUrl: '/samples/stories/eu-india-trade.mp3',
+    durationSec: 171,
+  },
+  {
+    title: 'UN Security Council debates new sanctions framework.',
+    summary: 'Member states remain split on enforcement mechanisms for the proposed rules.',
+    niche: 'Global Politics',
+    source: 'Associated Press',
+    sourceUrl: 'https://apnews.com',
+    readMinutes: 3,
+    audioUrl: '/samples/stories/un-sanctions.mp3',
+    durationSec: 163,
+  },
+  {
+    title: 'Japan and South Korea sign a joint semiconductor supply pact.',
+    summary: 'The agreement aims to de-risk chip production from single-region shocks.',
+    niche: 'Global Politics',
+    source: 'Nikkei Asia',
+    sourceUrl: 'https://asia.nikkei.com',
+    readMinutes: 2,
+    audioUrl: '/samples/stories/japan-korea-chips.mp3',
+    durationSec: 140,
+  },
+
+  // Startups
+  {
+    title: 'Indian D2C startups raise record seed rounds in Q3.',
+    summary: 'A wave of consumer brands is drawing early-stage capital despite a broader funding slowdown.',
+    niche: 'Startups',
+    source: 'Economic Times',
+    sourceUrl: 'https://economictimes.indiatimes.com',
+    readMinutes: 4,
+    audioUrl: '/samples/stories/d2c-funding.mp3',
+    durationSec: 210,
+  },
+  {
+    title: 'A Bengaluru fintech becomes the year’s fastest unicorn.',
+    summary: 'The lending platform crossed a billion-dollar valuation just 14 months after launch.',
+    niche: 'Startups',
+    source: 'Inc42',
+    sourceUrl: 'https://inc42.com',
+    readMinutes: 3,
+    audioUrl: '/samples/stories/fastest-unicorn.mp3',
+    durationSec: 176,
+  },
+  {
+    title: 'YC’s latest batch skews heavily toward agentic dev tools.',
+    summary: 'Nearly a third of the cohort is building infrastructure for autonomous coding agents.',
+    niche: 'Startups',
+    source: 'TechCrunch',
+    sourceUrl: 'https://techcrunch.com',
+    readMinutes: 3,
+    audioUrl: '/samples/stories/yc-batch.mp3',
+    durationSec: 158,
+  },
+
+  // Science
+  {
+    title: 'ISRO announces next lunar sample-return mission timeline.',
+    summary: 'The mission builds on Chandrayaan-3 learnings and targets a 2028 launch window.',
+    niche: 'Science',
+    source: 'The Hindu',
+    sourceUrl: 'https://www.thehindu.com',
+    readMinutes: 3,
+    audioUrl: '/samples/stories/isro-mission.mp3',
+    durationSec: 175,
+  },
+  {
+    title: 'Researchers report a room-temperature superconductor breakthrough — pending replication.',
+    summary: 'Independent labs are racing to verify the result before the claim is taken as settled.',
+    niche: 'Science',
+    source: 'Nature News',
+    sourceUrl: 'https://www.nature.com',
+    readMinutes: 4,
+    audioUrl: '/samples/stories/superconductor.mp3',
+    durationSec: 201,
+  },
+  {
+    title: 'James Webb telescope detects atmospheric water on a nearby exoplanet.',
+    summary: 'The signal is the clearest evidence yet of a potentially habitable world nearby.',
+    niche: 'Science',
+    source: 'Scientific American',
+    sourceUrl: 'https://www.scientificamerican.com',
+    readMinutes: 3,
+    audioUrl: '/samples/stories/exoplanet-water.mp3',
+    durationSec: 167,
+  },
+
+  // Health & Medicine
+  {
+    title: 'WHO adds a new mRNA vaccine platform to its emergency-use list.',
+    summary: 'The approval fast-tracks rollout in lower-income countries facing seasonal outbreaks.',
+    niche: 'Health & Medicine',
+    source: 'STAT News',
+    sourceUrl: 'https://www.statnews.com',
+    readMinutes: 3,
+    audioUrl: '/samples/stories/who-vaccine.mp3',
+    durationSec: 159,
+  },
+  {
+    title: 'A new blood test can flag pancreatic cancer years before symptoms.',
+    summary: 'Early trial results show promising sensitivity in high-risk patient groups.',
+    niche: 'Health & Medicine',
+    source: 'The Lancet',
+    sourceUrl: 'https://www.thelancet.com',
+    readMinutes: 3,
+    audioUrl: '/samples/stories/pancreatic-blood-test.mp3',
+    durationSec: 164,
+  },
+  {
+    title: "India's health ministry expands free dialysis access to tier-2 cities.",
+    summary: 'The program adds 200 new centers under the national kidney care initiative.',
+    niche: 'Health & Medicine',
+    source: 'The Hindu',
+    sourceUrl: 'https://www.thehindu.com',
+    readMinutes: 2,
+    audioUrl: '/samples/stories/dialysis-expansion.mp3',
+    durationSec: 128,
+  },
+
+  // Climate & Energy
+  {
     title: 'Global climate summit sets new emissions targets for 2035.',
     summary: 'Negotiators agreed on a phased framework after days of overtime talks.',
     niche: 'Climate & Energy',
@@ -64,13 +241,138 @@ const sampleStories = [
     audioUrl: '/samples/stories/climate-summit.mp3',
     durationSec: 185,
   },
+  {
+    title: "India's solar capacity crosses 100 GW ahead of schedule.",
+    summary: 'Falling panel costs and faster land approvals drove the milestone forward by a year.',
+    niche: 'Climate & Energy',
+    source: 'Mercom India',
+    sourceUrl: 'https://www.mercomindia.com',
+    readMinutes: 2,
+    audioUrl: '/samples/stories/solar-100gw.mp3',
+    durationSec: 137,
+  },
+  {
+    title: 'A new grid-scale battery chemistry promises 12-hour storage at half the cost.',
+    summary: 'The iron-air design trades energy density for a dramatically lower price per kWh.',
+    niche: 'Climate & Energy',
+    source: 'Canary Media',
+    sourceUrl: 'https://www.canarymedia.com',
+    readMinutes: 3,
+    audioUrl: '/samples/stories/iron-air-battery.mp3',
+    durationSec: 172,
+  },
+
+  // Sports
+  {
+    title: 'India seals the series with a dominant run-chase in the final T20.',
+    summary: 'A record partnership in the powerplay put the result beyond doubt early.',
+    niche: 'Sports',
+    source: 'ESPNcricinfo',
+    sourceUrl: 'https://www.espncricinfo.com',
+    readMinutes: 2,
+    audioUrl: '/samples/stories/t20-series-win.mp3',
+    durationSec: 124,
+  },
+  {
+    title: 'The ISL announces a new salary cap ahead of next season.',
+    summary: 'The move aims to level competition between the league’s bigger and smaller clubs.',
+    niche: 'Sports',
+    source: 'ESPN India',
+    sourceUrl: 'https://www.espn.in',
+    readMinutes: 2,
+    audioUrl: '/samples/stories/isl-salary-cap.mp3',
+    durationSec: 111,
+  },
+  {
+    title: 'An Indian paddler stuns the world number one in a shock upset.',
+    summary: 'The straight-games win marks the biggest result of her young career.',
+    niche: 'Sports',
+    source: 'The Bridge',
+    sourceUrl: 'https://thebridge.in',
+    readMinutes: 2,
+    audioUrl: '/samples/stories/paddler-upset.mp3',
+    durationSec: 107,
+  },
+
+  // Culture & Arts
+  {
+    title: 'A Mumbai-based studio wins the international animation grand prix.',
+    summary: 'The short film beat entries from 40 countries at this year’s festival.',
+    niche: 'Culture & Arts',
+    source: 'Film Companion',
+    sourceUrl: 'https://www.filmcompanion.in',
+    readMinutes: 2,
+    audioUrl: '/samples/stories/animation-grand-prix.mp3',
+    durationSec: 115,
+  },
+  {
+    title: 'A long-lost Raja Ravi Varma painting resurfaces at auction.',
+    summary: 'Historians say the piece fills a gap in the artist’s documented catalogue.',
+    niche: 'Culture & Arts',
+    source: 'The Hindu',
+    sourceUrl: 'https://www.thehindu.com',
+    readMinutes: 3,
+    audioUrl: '/samples/stories/ravi-varma-painting.mp3',
+    durationSec: 149,
+  },
+  {
+    title: 'Indie musicians push back against AI-generated soundalikes.',
+    summary: 'A new collective is lobbying platforms for clearer labeling and consent rules.',
+    niche: 'Culture & Arts',
+    source: 'Rolling Stone India',
+    sourceUrl: 'https://rollingstoneindia.com',
+    readMinutes: 3,
+    audioUrl: '/samples/stories/ai-soundalikes.mp3',
+    durationSec: 153,
+  },
+
+  // Legal & Policy
+  {
+    title: 'Supreme Court reserves verdict on the new data protection rules.',
+    summary: 'The bench flagged concerns over the scope of exemptions granted to government agencies.',
+    niche: 'Legal & Policy',
+    source: 'Bar and Bench',
+    sourceUrl: 'https://www.barandbench.com',
+    readMinutes: 3,
+    audioUrl: '/samples/stories/data-protection-verdict.mp3',
+    durationSec: 178,
+  },
+  {
+    title: 'Parliament tables a bill to fast-track commercial dispute resolution.',
+    summary: 'The proposal creates dedicated benches aimed at clearing a multi-year case backlog.',
+    niche: 'Legal & Policy',
+    source: 'LiveLaw',
+    sourceUrl: 'https://www.livelaw.in',
+    readMinutes: 3,
+    audioUrl: '/samples/stories/commercial-dispute-bill.mp3',
+    durationSec: 161,
+  },
+  {
+    title: 'Competition regulator opens a probe into app-store billing practices.',
+    summary: 'The inquiry mirrors similar antitrust actions already underway in other markets.',
+    niche: 'Legal & Policy',
+    source: 'Bar and Bench',
+    sourceUrl: 'https://www.barandbench.com',
+    readMinutes: 2,
+    audioUrl: '/samples/stories/appstore-antitrust.mp3',
+    durationSec: 134,
+  },
 ];
 
 async function seed() {
   await connectDB();
   await Story.deleteMany({});
-  await Story.insertMany(sampleStories);
-  console.log(`[seed] Inserted ${sampleStories.length} stories`);
+
+  // Spread stories over the last few hours so "latest first" ordering has
+  // variety instead of every document sharing the same insert timestamp.
+  const now = Date.now();
+  const withTimestamps = sampleStories.map((story, i) => ({
+    ...story,
+    publishedAt: new Date(now - i * 45 * 60 * 1000),
+  }));
+
+  await Story.insertMany(withTimestamps);
+  console.log(`[seed] Inserted ${withTimestamps.length} stories across ${new Set(sampleStories.map((s) => s.niche)).size} niches`);
   await mongoose.disconnect();
 }
 
