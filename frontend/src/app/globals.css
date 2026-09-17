@@ -1,0 +1,100 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #08080b;
+  --bg-glow: radial-gradient(60% 40% at 50% 0%, rgba(124, 108, 246, 0.22), transparent 70%);
+  --surface: #131318;
+  --surface-2: #1a1a22;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.14);
+  --text: #f5f5f7;
+  --text-dim: #9a9aa6;
+  --text-faint: #64646f;
+  --accent-1: #8b7cf6;
+  --accent-2: #5b6cf0;
+  --accent-grad: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+  --success-1: #34d399;
+  --success-2: #22c55e;
+  --success-grad: linear-gradient(135deg, var(--success-1), var(--success-2));
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-text: var(--text);
+  --color-text-dim: var(--text-dim);
+  --color-text-faint: var(--text-faint);
+  --color-accent-1: var(--accent-1);
+  --color-accent-2: var(--accent-2);
+  --color-success-1: var(--success-1);
+  --color-success-2: var(--success-2);
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-serif-accent);
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+body {
+  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  min-height: 100dvh;
+}
+
+.app-shell {
+  position: relative;
+  width: 100%;
+  min-height: 100dvh;
+  background-color: var(--bg);
+  background-image: var(--bg-glow);
+  background-repeat: no-repeat;
+  overflow-x: hidden;
+}
+
+/* Centered wizard card used by splash/auth/onboarding screens at every
+   viewport width, so the linear flow never stretches edge-to-edge on desktop. */
+.auth-card {
+  max-width: 440px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.accent-text {
+  font-family: var(--font-serif-accent), Georgia, serif;
+  font-style: italic;
+  background: linear-gradient(135deg, #c9c2ff, var(--accent-1) 60%, var(--accent-2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.btn-primary {
+  background: var(--accent-grad);
+  box-shadow: 0 8px 24px -8px rgba(107, 92, 246, 0.55);
+}
+
+.btn-primary:active {
+  transform: translateY(1px);
+}
+
+.btn-success {
+  background: var(--success-grad);
+  box-shadow: 0 8px 24px -8px rgba(34, 197, 94, 0.5);
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+* {
+  scrollbar-width: none;
+}

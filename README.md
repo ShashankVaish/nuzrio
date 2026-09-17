@@ -13,6 +13,10 @@ npm run dev
 
 Server runs on `http://localhost:5000`, API mounted at `/api/v1`.
 
+## Frontend
+
+The `frontend/` folder is a separate Next.js app that consumes this API — see [frontend/README.md](frontend/README.md). Run the backend first (with MongoDB up and seeded), then `cd frontend && npm install && npm run dev`.
+
 ## Endpoints
 
 **Auth** — `/api/v1/auth`
