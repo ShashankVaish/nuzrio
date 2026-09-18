@@ -3,14 +3,14 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ChevronLeft, Star } from "lucide-react";
-import { useRequireAuth } from "@/lib/useRequireAuth";
+import { useRequireOnboarded } from "@/lib/useRequireOnboarded";
 import { api } from "@/lib/api";
 import type { StoryCard } from "@/lib/types";
 import { nicheShort } from "@/lib/icons";
 import { AppShell } from "@/components/AppShell";
 
 export default function SavedStoriesPage() {
-  const { user, loading } = useRequireAuth();
+  const { user, loading } = useRequireOnboarded();
   const [stories, setStories] = useState<StoryCard[]>([]);
   const [fetching, setFetching] = useState(true);
 

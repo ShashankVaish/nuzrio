@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Sun, Zap, Pin } from "lucide-react";
 import { OnboardingHeader } from "@/components/ui/OnboardingHeader";
+import { useSkipOnboarding } from "@/lib/useSkipOnboarding";
 import { StepHeading } from "@/components/ui/StepHeading";
 import { Button } from "@/components/ui/Button";
 import { Logo } from "@/components/ui/Logo";
@@ -37,6 +38,7 @@ export default function NotificationsStep() {
   const router = useRouter();
   const { user, loading } = useRequireAuth();
   const { setUser } = useAuth();
+  const { skip, skipping } = useSkipOnboarding();
   const [saving, setSaving] = useState(false);
 
   if (loading || !user) return null;
@@ -54,7 +56,7 @@ export default function NotificationsStep() {
 
   return (
     <div className="min-h-dvh flex flex-col pb-8 auth-card">
-      <OnboardingHeader step={5} />
+      <OnboardingHeader step={5} onSkip={skip} skipping={skipping} />
       <StepHeading title="Stay in" accent="the loop." subtitle="Turn on notifications so you never miss your brief." />
 
       <div className="px-6 mt-6">

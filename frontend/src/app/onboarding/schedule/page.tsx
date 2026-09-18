@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import clsx from "clsx";
 import { OnboardingHeader } from "@/components/ui/OnboardingHeader";
+import { useSkipOnboarding } from "@/lib/useSkipOnboarding";
 import { StepHeading } from "@/components/ui/StepHeading";
 import { Button } from "@/components/ui/Button";
 import { useCatalog } from "@/lib/useCatalog";
@@ -23,6 +24,7 @@ export default function ScheduleStep() {
   const { catalog } = useCatalog();
   const { user, loading } = useRequireAuth();
   const { setUser } = useAuth();
+  const { skip, skipping } = useSkipOnboarding();
   const [period, setPeriod] = useState<"AM" | "PM">(user?.onboarding.deliveryPeriod ?? "AM");
   const [time, setTime] = useState(user?.onboarding.deliveryTime ?? "07:00");
   const [saving, setSaving] = useState(false);
@@ -42,7 +44,7 @@ export default function ScheduleStep() {
 
   return (
     <div className="min-h-dvh flex flex-col pb-8 auth-card">
-      <OnboardingHeader step={4} />
+      <OnboardingHeader step={4} onSkip={skip} skipping={skipping} />
       <StepHeading
         title="When do you"
         accent="want your brief?"

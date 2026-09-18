@@ -4,14 +4,14 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import clsx from "clsx";
 import { ChevronLeft, Check } from "lucide-react";
-import { useRequireAuth } from "@/lib/useRequireAuth";
+import { useRequireOnboarded } from "@/lib/useRequireOnboarded";
 import { useAuth } from "@/context/AppProviders";
 import { api } from "@/lib/api";
 import type { Plan } from "@/lib/types";
 import { AppShell } from "@/components/AppShell";
 
 export default function BillingPage() {
-  const { user, loading } = useRequireAuth();
+  const { user, loading } = useRequireOnboarded();
   const { setUser } = useAuth();
   const [plans, setPlans] = useState<Plan[]>([]);
   const [upgrading, setUpgrading] = useState<string | null>(null);

@@ -4,6 +4,7 @@ import type { User } from "@/lib/types";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { OnboardingHeader } from "@/components/ui/OnboardingHeader";
+import { useSkipOnboarding } from "@/lib/useSkipOnboarding";
 import { StepHeading } from "@/components/ui/StepHeading";
 import { Chip } from "@/components/ui/Chip";
 import { Button } from "@/components/ui/Button";
@@ -18,6 +19,7 @@ export default function ProfessionStep() {
   const { catalog } = useCatalog();
   const { user, loading } = useRequireAuth();
   const { setUser } = useAuth();
+  const { skip, skipping } = useSkipOnboarding();
   const [profession, setProfession] = useState<string | null>(user?.onboarding.profession ?? null);
   const [saving, setSaving] = useState(false);
 
@@ -37,7 +39,7 @@ export default function ProfessionStep() {
 
   return (
     <div className="min-h-dvh flex flex-col pb-8 auth-card">
-      <OnboardingHeader step={1} />
+      <OnboardingHeader step={1} onSkip={skip} skipping={skipping} />
       <StepHeading
         title="What's your"
         accent="profession?"

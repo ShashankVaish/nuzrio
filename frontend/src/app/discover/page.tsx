@@ -6,7 +6,7 @@ import { Search, Play, Star } from "lucide-react";
 import { TopBar } from "@/components/TopBar";
 import { BottomNav } from "@/components/BottomNav";
 import { AppShell } from "@/components/AppShell";
-import { useRequireAuth } from "@/lib/useRequireAuth";
+import { useRequireOnboarded } from "@/lib/useRequireOnboarded";
 import { api } from "@/lib/api";
 import type { StoryCard } from "@/lib/types";
 import { nicheShort } from "@/lib/icons";
@@ -14,7 +14,7 @@ import { nicheShort } from "@/lib/icons";
 const TABS = ["All", "AI & Technology", "Financial Markets", "Startups", "Science"];
 
 export default function DiscoverPage() {
-  const { user, loading } = useRequireAuth();
+  const { user, loading } = useRequireOnboarded();
   const [tab, setTab] = useState("All");
   const [query, setQuery] = useState("");
   const [stories, setStories] = useState<StoryCard[]>([]);

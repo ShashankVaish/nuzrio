@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import clsx from "clsx";
 import { Play, Pause, Check } from "lucide-react";
 import { OnboardingHeader } from "@/components/ui/OnboardingHeader";
+import { useSkipOnboarding } from "@/lib/useSkipOnboarding";
 import { StepHeading } from "@/components/ui/StepHeading";
 import { Button } from "@/components/ui/Button";
 import { useCatalog } from "@/lib/useCatalog";
@@ -18,6 +19,7 @@ export default function VoiceStep() {
   const { catalog } = useCatalog();
   const { user, loading } = useRequireAuth();
   const { setUser } = useAuth();
+  const { skip, skipping } = useSkipOnboarding();
   const [voiceId, setVoiceId] = useState<string | null>(user?.onboarding.voiceId ?? "aria");
   const [lengthId, setLengthId] = useState<string | null>(user?.onboarding.briefLengthId ?? "5min");
   const [customMinutes, setCustomMinutes] = useState<number>(user?.onboarding.customBriefMinutes ?? 12);
@@ -64,7 +66,7 @@ export default function VoiceStep() {
 
   return (
     <div className="min-h-dvh flex flex-col pb-8 auth-card">
-      <OnboardingHeader step={3} />
+      <OnboardingHeader step={3} onSkip={skip} skipping={skipping} />
       <StepHeading title="Pick a" accent="narrator voice." subtitle="Tap ▶ to hear a 10-second sample." />
 
       <div className="px-6 mt-6 flex flex-col gap-3">

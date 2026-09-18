@@ -4,6 +4,7 @@ import type { User } from "@/lib/types";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { OnboardingHeader } from "@/components/ui/OnboardingHeader";
+import { useSkipOnboarding } from "@/lib/useSkipOnboarding";
 import { Chip } from "@/components/ui/Chip";
 import { Button } from "@/components/ui/Button";
 import { useCatalog } from "@/lib/useCatalog";
@@ -17,6 +18,7 @@ export default function NichesStep() {
   const { catalog } = useCatalog();
   const { user, loading } = useRequireAuth();
   const { setUser } = useAuth();
+  const { skip, skipping } = useSkipOnboarding();
   const [niches, setNiches] = useState<string[]>(user?.onboarding.niches ?? []);
   const [saving, setSaving] = useState(false);
 
@@ -46,7 +48,7 @@ export default function NichesStep() {
 
   return (
     <div className="min-h-dvh flex flex-col pb-8 auth-card">
-      <OnboardingHeader step={2} />
+      <OnboardingHeader step={2} onSkip={skip} skipping={skipping} />
       <div className="px-6 mt-5 flex items-start justify-between">
         <h1 className="text-[26px] font-semibold leading-tight">
           What moves

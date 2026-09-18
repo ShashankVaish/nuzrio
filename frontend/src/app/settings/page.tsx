@@ -7,12 +7,12 @@ import { TopBar } from "@/components/TopBar";
 import { BottomNav } from "@/components/BottomNav";
 import { AppShell } from "@/components/AppShell";
 import { Toggle } from "@/components/ui/Toggle";
-import { useRequireAuth } from "@/lib/useRequireAuth";
+import { useRequireOnboarded } from "@/lib/useRequireOnboarded";
 import { useAuth } from "@/context/AppProviders";
 import { api } from "@/lib/api";
 
 export default function SettingsPage() {
-  const { user, loading } = useRequireAuth();
+  const { user, loading } = useRequireOnboarded();
   const { setUser } = useAuth();
 
   if (loading || !user) return null;

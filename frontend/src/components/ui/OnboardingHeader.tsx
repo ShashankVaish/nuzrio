@@ -1,20 +1,24 @@
-import Link from "next/link";
 import { Logo } from "./Logo";
 
 interface OnboardingHeaderProps {
   step: number;
   totalSteps?: number;
-  skipHref?: string;
+  onSkip: () => void;
+  skipping?: boolean;
 }
 
-export function OnboardingHeader({ step, totalSteps = 6, skipHref = "/home" }: OnboardingHeaderProps) {
+export function OnboardingHeader({ step, totalSteps = 6, onSkip, skipping }: OnboardingHeaderProps) {
   return (
     <div className="px-6 pt-6">
       <div className="flex items-center justify-between">
         <Logo />
-        <Link href={skipHref} className="text-xs font-medium text-text-dim tracking-wide">
-          SKIP →
-        </Link>
+        <button
+          onClick={onSkip}
+          disabled={skipping}
+          className="text-xs font-medium text-text-dim tracking-wide disabled:opacity-50"
+        >
+          {skipping ? "SKIPPING…" : "SKIP →"}
+        </button>
       </div>
 
       <div className="mt-5 flex gap-1.5">

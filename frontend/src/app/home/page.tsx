@@ -6,13 +6,13 @@ import { Play, Pause, SkipBack, SkipForward, Bookmark, ExternalLink } from "luci
 import { TopBar } from "@/components/TopBar";
 import { BottomNav } from "@/components/BottomNav";
 import { AppShell } from "@/components/AppShell";
-import { useRequireAuth } from "@/lib/useRequireAuth";
+import { useRequireOnboarded } from "@/lib/useRequireOnboarded";
 import { usePlayer } from "@/context/PlayerContext";
 import { waveformBars, formatDuration } from "@/lib/waveform";
 import { nicheShort } from "@/lib/icons";
 
 export default function HomePage() {
-  const { user, loading } = useRequireAuth();
+  const { user, loading } = useRequireOnboarded();
   const { brief, loading: briefLoading, currentIndex, positionSec, isPlaying, toggle, next, prev, seekToStory, toggleSaveCurrent } =
     usePlayer();
   const [tab, setTab] = useState("All");
