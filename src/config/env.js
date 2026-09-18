@@ -10,9 +10,11 @@ const env = {
   jwtRefreshExpiresIn: process.env.JWT_REFRESH_EXPIRES_IN || '30d',
   googleClientId: process.env.GOOGLE_CLIENT_ID,
   // Comma-separated list, e.g. "http://localhost:3000,https://nuzio.vercel.app"
+  // Trailing slashes are stripped since the browser's Origin header never
+  // includes one, but it's an easy typo to make when pasting a deployed URL.
   clientUrls: (process.env.CLIENT_URL || 'http://localhost:3000')
     .split(',')
-    .map((url) => url.trim())
+    .map((url) => url.trim().replace(/\/+$/, ''))
     .filter(Boolean),
 };
 
