@@ -78,6 +78,25 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   const currentStory = brief?.stories[currentIndex] ?? null;
   const duration = currentStory?.durationSec ?? 0;
 
+  // There's no real hosted audio for the mock stories, so narration is done
+  // with the browser's built-in text-to-speech instead — Play genuinely
+  // reads the story aloud rather than just animating a silent progress bar.
+  const currentStoryId = currentStory?.id;
+  useEffect(() => {
+    if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
+    const synth = window.speechSynthesis;
+    synth.cancel();
+    if (!isPlaying || !currentStory) return;
+
+    const utterance = new SpeechSynthesisUtterance(`${currentStory.title}. ${currentStory.summary}`);
+    utterance.lang = user?.onboarding.language === "hi-IN" ? "hi-IN" : "en-US";
+    utterance.rate = 0.98;
+    synth.speak(utterance);
+
+    return () => synth.cancel();
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- keyed on story id, not the object reference
+  }, [isPlaying, currentStoryId, user?.onboarding.language]);
+
   useEffect(() => {
     if (intervalRef.current) clearInterval(intervalRef.current);
     if (!isPlaying || !currentStory) return;
