@@ -9,6 +9,8 @@ const env = {
   jwtAccessExpiresIn: process.env.JWT_ACCESS_EXPIRES_IN || '15m',
   jwtRefreshExpiresIn: process.env.JWT_REFRESH_EXPIRES_IN || '30d',
   googleClientId: process.env.GOOGLE_CLIENT_ID,
+  // Protects POST /api/v1/admin/seed. Leave unset to disable that endpoint entirely.
+  seedSecret: process.env.SEED_SECRET,
   // Comma-separated list, e.g. "http://localhost:3000,https://nuzio.vercel.app"
   // Trailing slashes are stripped since the browser's Origin header never
   // includes one, but it's an easy typo to make when pasting a deployed URL.
